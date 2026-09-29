@@ -87,25 +87,25 @@ export default function App() {
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-                      <th style={{ padding: '12px 16px', color: '#374151' }}>Producto</th>
-                      <th style={{ padding: '12px 16px', color: '#374151' }}>Detalles / Datos</th>
+                      <th style={{ padding: '12px 16px', color: '#374151' }}>ID</th>
+                      <th style={{ padding: '12px 16px', color: '#374151' }}>Producto (NAME)</th>
+                      <th style={{ padding: '12px 16px', color: '#374151' }}>Stock</th>
+                      <th style={{ padding: '12px 16px', color: '#374151' }}>Precio</th>
                     </tr>
                   </thead>
                   <tbody>
                     {inventory.length > 0 ? (
                       inventory.map((item, index) => (
                         <tr key={index} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                          <td style={{ padding: '12px 16px', color: '#1f2937', fontWeight: 'bold' }}>
-                            {item.product || item.nombre || JSON.stringify(item)}
-                          </td>
-                          <td style={{ padding: '12px 16px', color: '#4b5563' }}>
-                            {JSON.stringify(item)}
-                          </td>
+                          <td style={{ padding: '12px 16px', color: '#1f2937' }}>{item.id}</td>
+                          <td style={{ padding: '12px 16px', color: '#1f2937', fontWeight: 'bold' }}>{item.NAME}</td>
+                          <td style={{ padding: '12px 16px', color: '#4b5563' }}>{item.STOCK}</td>
+                          <td style={{ padding: '12px 16px', color: '#4b5563' }}>${item.PRICE}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="2" style={{ padding: '20px', textAlign: 'center', color: '#6b7280' }}>
+                        <td colSpan="4" style={{ padding: '20px', textAlign: 'center', color: '#6b7280' }}>
                           No se encontraron registros en la tabla INVENTORY.
                         </td>
                       </tr>
