@@ -7,7 +7,6 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Función para cargar los datos del inventario desde Supabase
   const fetchInventory = async () => {
     setLoading(true);
     setError(null);
@@ -26,7 +25,6 @@ export default function App() {
     }
   };
 
-  // Cargar inventario al cambiar a la pestaña de inventario
   useEffect(() => {
     if (activeTab === 'inventory') {
       fetchInventory();
@@ -35,39 +33,39 @@ export default function App() {
 
   return (
     <div style={{ display: 'flex', height: '100vh', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f8' }}>
-      {/* Menú Lateral */}
       <div style={{ width: '250px', backgroundColor: '#ffffff', borderRight: '1px solid #e5e7eb', padding: '20px' }}>
-        <h2 style={{ color: '#1e3a8a', fontSize: '20px', marginBottom: '30px' }}>ICAR LAB<br/><span style={{ fontSize: '12px', color: '#6b7280' }}>QUERETARO ERP</span></h2>
+        <h2 style={{ color: '#1e3a8a', fontSize: '20px', marginBottom: '30px' }}>
+          ICAR LAB<br/><span style={{ fontSize: '12px', color: '#6b7280' }}>QUERETARO ERP</span>
+        </h2>
         
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li 
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <button 
             onClick={() => setActiveTab('dashboard')} 
-            style={{ padding: '10px 15px', cursor: 'pointer', borderRadius: '6px', marginBottom: '8px', backgroundColor: activeTab === 'dashboard' ? '#e0e7ff' : 'transparent', color: activeTab === 'dashboard' ? '#1e40af' : '#374151', fontWeight: activeTab === 'dashboard' ? 'bold' : 'normal' }}
+            style={{ padding: '10px 15px', textAlign: 'left', cursor: 'pointer', borderRadius: '6px', border: 'none', backgroundColor: activeTab === 'dashboard' ? '#e0e7ff' : 'transparent', color: activeTab === 'dashboard' ? '#1e40af' : '#374151', fontWeight: activeTab === 'dashboard' ? 'bold' : 'normal' }}
           >
             Dashboard
-          </li>
-          <li 
+          </button>
+          <button 
             onClick={() => setActiveTab('inventory')} 
-            style={{ padding: '10px 15px', cursor: 'pointer', borderRadius: '6px', marginBottom: '8px', backgroundColor: activeTab === 'inventory' ? '#e0e7ff' : 'transparent', color: activeTab === 'inventory' ? '#1e40af' : '#374151', fontWeight: activeTab === 'inventory' ? 'bold' : 'normal' }}
+            style={{ padding: '10px 15px', textAlign: 'left', cursor: 'pointer', borderRadius: '6px', border: 'none', backgroundColor: activeTab === 'inventory' ? '#e0e7ff' : 'transparent', color: activeTab === 'inventory' ? '#1e40af' : '#374151', fontWeight: activeTab === 'inventory' ? 'bold' : 'normal' }}
           >
             Inventario
-          </li>
-          <li 
+          </button>
+          <button 
             onClick={() => setActiveTab('clients')} 
-            style={{ padding: '10px 15px', cursor: 'pointer', borderRadius: '6px', marginBottom: '8px', backgroundColor: activeTab === 'clients' ? '#e0e7ff' : 'transparent', color: activeTab === 'clients' ? '#1e40af' : '#374151' }}
+            style={{ padding: '10px 15px', textAlign: 'left', cursor: 'pointer', borderRadius: '6px', border: 'none', backgroundColor: activeTab === 'clients' ? '#e0e7ff' : 'transparent', color: activeTab === 'clients' ? '#1e40af' : '#374151' }}
           >
             Clientes
-          </li>
-          <li 
+          </button>
+          <button 
             onClick={() => setActiveTab('reports')} 
-            style={{ padding: '10px 15px', cursor: 'pointer', borderRadius: '6px', marginBottom: '8px', backgroundColor: activeTab === 'reports' ? '#e0e7ff' : 'transparent', color: activeTab === 'reports' ? '#1e40af' : '#374151' }}
+            style={{ padding: '10px 15px', textAlign: 'left', cursor: 'pointer', borderRadius: '6px', border: 'none', backgroundColor: activeTab === 'reports' ? '#e0e7ff' : 'transparent', color: activeTab === 'reports' ? '#1e40af' : '#374151' }}
           >
             Reportes
-          </li>
-        </ul>
+          </button>
+        </div>
       </div>
 
-      {/* Contenido Principal */}
       <div style={{ flex: 1, padding: '30px', overflowY: 'auto' }}>
         {activeTab === 'dashboard' && (
           <div>
@@ -83,24 +81,24 @@ export default function App() {
             {error && <p style={{ color: '#dc2626' }}>Error: {error}</p>}
             
             {!loading && !error && (
-              <div style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+              <div style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                   <thead>
-                    <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-                      <th style={{ padding: '12px 16px', color: '#374151' }}>ID</th>
-                      <th style={{ padding: '12px 16px', color: '#374151' }}>Producto (NAME)</th>
-                      <th style={{ padding: '12px 16px', color: '#374151' }}>Stock</th>
-                      <th style={{ padding: '12px 16px', color: '#374151' }}>Precio</th>
+                    <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                      <th style={{ padding: '12px', color: '#374151' }}>ID</th>
+                      <th style={{ padding: '12px', color: '#374151' }}>Producto</th>
+                      <th style={{ padding: '12px', color: '#374151' }}>Stock</th>
+                      <th style={{ padding: '12px', color: '#374151' }}>Precio</th>
                     </tr>
                   </thead>
                   <tbody>
                     {inventory.length > 0 ? (
-                      inventory.map((item, index) => (
-                        <tr key={index} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                          <td style={{ padding: '12px 16px', color: '#1f2937' }}>{item.id}</td>
-                          <td style={{ padding: '12px 16px', color: '#1f2937', fontWeight: 'bold' }}>{item.NAME}</td>
-                          <td style={{ padding: '12px 16px', color: '#4b5563' }}>{item.STOCK}</td>
-                          <td style={{ padding: '12px 16px', color: '#4b5563' }}>${item.PRICE}</td>
+                      inventory.map((item) => (
+                        <tr key={item.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                          <td style={{ padding: '12px', color: '#1f2937' }}>{item.id}</td>
+                          <td style={{ padding: '12px', color: '#1f2937', fontWeight: 'bold' }}>{item.NAME}</td>
+                          <td style={{ padding: '12px', color: '#4b5563' }}>{item.STOCK}</td>
+                          <td style={{ padding: '12px', color: '#4b5563' }}>${item.PRICE}</td>
                         </tr>
                       ))
                     ) : (
