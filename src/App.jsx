@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import InventoryDashboard from './components/InventoryDashboard';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -94,7 +95,6 @@ export default function App() {
     }
   };
 
-  // Preparar datos para la vista previa antes de exportar
   const handlePreviewReport = (moduleName, periodType) => {
     const now = new Date();
     const period = periodType.toUpperCase();
@@ -155,7 +155,6 @@ export default function App() {
     });
   };
 
-  // Descarga real al confirmar en la vista previa
   const handleDownloadFromModal = () => {
     const { moduleName, periodType, data } = reportModal;
     const now = new Date();
@@ -192,7 +191,6 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f8', minHeight: '100vh', margin: 0, padding: '20px' }}>
-      {/* Encabezado del ERP */}
       <header style={{ marginBottom: '20px', borderBottom: '2px solid #e2e8f0', paddingBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <div>
           <h2 style={{ color: '#1e3a8a', margin: '0 0 10px 0' }}>ICAR LAB - ERP QUERETARO</h2>
@@ -225,7 +223,6 @@ export default function App() {
         </button>
       </header>
 
-      {/* Contenido según la pestaña activa */}
       <main style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
         {activeTab === 'dashboard' && (
           <div>
@@ -242,7 +239,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Tarjetas de Métricas */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '30px' }}>
               <div style={{ padding: '20px', backgroundColor: '#f8fafc', borderLeft: '5px solid #2563eb', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
                 <h4 style={{ margin: '0 0 10px 0', color: '#64748b', fontSize: '14px' }}>INGRESOS TOTALES</h4>
@@ -287,6 +283,12 @@ export default function App() {
                 </div>
               </div>
             </div>
+            
+            {/* Renderizado de tu componente separado si deseas integrarlo */}
+            <div style={{ marginBottom: '20px' }}>
+              <InventoryDashboard />
+            </div>
+
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
@@ -307,7 +309,7 @@ export default function App() {
                       <td style={{ padding: '12px', color: '#64748b' }}>{item.date}</td>
                       <td style={{ padding: '12px', textAlign: 'center', display: 'flex', gap: '8px', justifyContent: 'center' }}>
                         <button onClick={() => handleEditItem('inventory', item.id)} style={{ padding: '5px 10px', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>✏️ Modificar</button>
-                        <button onClick={() => handleDelete('inventory', item.id)} style={{ padding: '5px 10px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>🗑️ Quitar</button>
+                        <button onClick={() => handleDelete('inventory', item.id)} style={{ padding: '5px 10px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>🗑️️ Quitar</button>
                       </td>
                     </tr>
                   ))}
@@ -422,7 +424,6 @@ export default function App() {
               {reportModal.title}
             </h3>
 
-            {/* Resumen ejecutivo del reporte */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px', backgroundColor: '#f8fafc', padding: '12px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
               <div>
                 <span style={{ fontSize: '12px', color: '#64748b' }}>{reportModal.summary.label1}:</span>
@@ -434,7 +435,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Tabla de detalle */}
             <div style={{ overflowX: 'auto', marginBottom: '20px' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
                 <thead>
@@ -458,7 +458,6 @@ export default function App() {
               </table>
             </div>
 
-            {/* Botones de acción del modal */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
               <button 
                 onClick={() => setReportModal({ show: false, title: '', data: [], summary: {} })}
