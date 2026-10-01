@@ -3,8 +3,6 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   PieChart, Pie, Cell 
 } from 'recharts';
-// Asegúrate de importar tu cliente de Supabase configurado en el proyecto
-// import { supabase } from '../supabaseClient';
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
@@ -14,7 +12,6 @@ export default function InventoryDashboard() {
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [loading, setLoading] = useState(true);
 
-  // Simulación de carga de datos (Aquí puedes conectarlo a tu tabla de Supabase)
   useEffect(() => {
     fetchInventory();
   }, []);
@@ -22,11 +19,6 @@ export default function InventoryDashboard() {
   const fetchInventory = async () => {
     try {
       setLoading(true);
-      // Ejemplo de consulta real a Supabase:
-      // const { data, error } = await supabase.from('products').select('*');
-      // if (error) throw error;
-
-      // Datos de respaldo simulados para la presentación si aún no tienes registros masivos:
       const mockData = [
         { id: 1, name: 'Filtro de Aceite Premium', category: 'Refacciones', stock: 45, minStock: 10, price: 250, image: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=100' },
         { id: 2, name: 'Pastillas de Freno Delanteras', category: 'Frenos', stock: 8, minStock: 15, price: 850, image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=100' },
@@ -34,7 +26,6 @@ export default function InventoryDashboard() {
         { id: 4, name: 'Búfalo de Diagnóstico OBD2', category: 'Herramientas', stock: 3, minStock: 5, price: 3200, image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=100' },
         { id: 5, name: 'Amortiguador Trasero', category: 'Suspensión', stock: 12, minStock: 8, price: 1400, image: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?w=100' },
       ];
-
       setInventory(mockData);
     } catch (error) {
       console.error('Error cargando inventario:', error);
@@ -43,7 +34,6 @@ export default function InventoryDashboard() {
     }
   };
 
-  // --- FILTROS FLEXIBLES SOBRE LA MARCHA ---
   const filteredInventory = inventory.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           item.category.toLowerCase().includes(searchTerm.toLowerCase());
@@ -51,12 +41,10 @@ export default function InventoryDashboard() {
     return matchesSearch && matchesCategory;
   });
 
-  // --- CÁLCULOS PARA KPIs ---
   const totalProducts = inventory.length;
   const totalValue = inventory.reduce((acc, item) => acc + (item.stock * item.price), 0);
   const lowStockCount = inventory.filter(item => item.stock <= item.minStock).length;
 
-  // Datos para gráficos dinámicos basados en los filtros actuales
   const chartData = filteredInventory.map(item => ({
     name: item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name,
     stock: item.stock,
@@ -69,7 +57,6 @@ export default function InventoryDashboard() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen space-y-6">
-      {/* Encabezado del Módulo */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">📊 Dashboard de Inventario</h1>
@@ -83,7 +70,6 @@ export default function InventoryDashboard() {
         </button>
       </div>
 
-      {/* Tarjetas de Métricas Clave (KPIs) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
           <div>
@@ -110,7 +96,6 @@ export default function InventoryDashboard() {
         </div>
       </div>
 
-      {/* Filtros Flexibles y Buscador */}
       <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 items-center justify-between">
         <input 
           type="text"
@@ -137,7 +122,6 @@ export default function InventoryDashboard() {
         </div>
       </div>
 
-      {/* Gráficos Dinámicos (Recharts) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
           <h3 className="text-md font-bold text-gray-800 mb-4">Stock Actual por Producto (Filtrado)</h3>
@@ -170,7 +154,6 @@ export default function InventoryDashboard() {
         </div>
       </div>
 
-      {/* Tabla Dinámica con Imágenes y Alertas */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="p-4 border-b border-gray-100">
           <h3 className="text-md font-bold text-gray-800">Listado Detallado de Inventario</h3>
