@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { TrendingDown, Plus, Trash2, DollarSign, Calendar } from 'lucide-react';
 
 export default function ExpensesView() {
   const [expenses, setExpenses] = useState([]);
@@ -6,7 +7,7 @@ export default function ExpensesView() {
     concepto: '',
     categoria: 'Servicios Básicos',
     monto: '',
-    fecha: new Date().toISOString().split('T')[0] // Fecha de hoy por defecto
+    fecha: '2026-09-23' // Fecha estándar del sistema
   });
 
   // Cargar gastos guardados al iniciar
@@ -42,12 +43,12 @@ export default function ExpensesView() {
     setExpenses(updated);
     localStorage.setItem('icar_expenses', JSON.stringify(updated));
 
-    // Limpiar formulario (manteniendo la fecha de hoy)
+    // Limpiar formulario (manteniendo la fecha actual)
     setFormData({
       concepto: '',
       categoria: 'Servicios Básicos',
       monto: '',
-      fecha: new Date().toISOString().split('T')[0]
+      fecha: '2026-09-23'
     });
   };
 
@@ -61,48 +62,51 @@ export default function ExpensesView() {
   const totalGastos = expenses.reduce((acc, curr) => acc + curr.monto, 0);
 
   return (
-    <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-8">
+    <div className="space-y-6">
       {/* Encabezado */}
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Control de Gastos</h1>
-        <p className="text-sm text-slate-500 mt-1">ICAR LAB QUERÉTARO — Registro de egresos y costos operativos.</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">Control de Gastos</h1>
+        <p className="text-sm text-slate-400 mt-0.5">ICAR LAB QUERÉTARO — Registro de egresos y costos operativos.</p>
       </div>
 
       {/* Tarjeta de Resumen Rápido */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm font-medium text-slate-500">Total de Egresos Registrados</p>
-          <p className="text-2xl font-bold text-red-600 mt-1">${totalGastos.toFixed(2)}</p>
+        <div className="bg-[#111827] p-5 rounded-2xl shadow-lg border border-slate-800">
+          <p className="text-xs font-semibold text-slate-400 uppercase">Total de Egresos Registrados</p>
+          <p className="text-2xl font-bold text-red-400 mt-1.5">-${totalGastos.toFixed(2)}</p>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm font-medium text-slate-500">Cantidad de Movimientos</p>
-          <p className="text-2xl font-bold text-slate-900 mt-1">{expenses.length} <span className="text-xs font-normal text-slate-500">registros</span></p>
+        <div className="bg-[#111827] p-5 rounded-2xl shadow-lg border border-slate-800">
+          <p className="text-xs font-semibold text-slate-400 uppercase">Cantidad de Movimientos</p>
+          <p className="text-2xl font-bold text-white mt-1.5">{expenses.length} <span className="text-xs font-normal text-slate-400">registros</span></p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Formulario para Registrar Gasto */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-fit space-y-4">
-          <h2 className="font-bold text-slate-800 text-lg border-b pb-3">Registrar Nuevo Gasto</h2>
+        <div className="bg-[#111827] p-6 rounded-2xl shadow-lg border border-slate-800 h-fit space-y-5">
+          <div className="border-b border-slate-800 pb-4">
+            <h2 className="font-bold text-white text-base">Registrar Nuevo Gasto</h2>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-600 mb-1">Concepto / Descripción</label>
+              <label className="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Concepto / Descripción *</label>
               <input
                 type="text"
                 placeholder="Ej. Compra de herramientas, Renta..."
                 value={formData.concepto}
                 onChange={(e) => setFormData({ ...formData, concepto: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full bg-[#1a2234] border border-slate-700/60 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-600 mb-1">Categoría</label>
+              <label className="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Categoría</label>
               <select
                 value={formData.categoria}
                 onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
+                className="w-full bg-[#1a2234] border border-slate-700/60 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="Servicios Básicos">Servicios Básicos (Luz, Agua, Internet)</option>
                 <option value="Insumos / Herramientas">Insumos / Herramientas de Uso General</option>
@@ -113,7 +117,7 @@ export default function ExpensesView() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-600 mb-1">Monto ($)</label>
+              <label className="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Monto ($) *</label>
               <input
                 type="number"
                 step="0.01"
@@ -121,75 +125,87 @@ export default function ExpensesView() {
                 value={formData.monto}
                 onChange={(e) => setFormData({ ...formData, monto: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full bg-[#1a2234] border border-slate-700/60 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-600 mb-1">Fecha</label>
+              <label className="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Fecha</label>
               <input
                 type="date"
                 value={formData.fecha}
                 onChange={(e) => setFormData({ ...formData, fecha: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full bg-[#1a2234] border border-slate-700/60 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl shadow-md transition text-sm"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl shadow-lg shadow-blue-600/30 transition text-sm flex items-center justify-center gap-2"
             >
+              <Plus className="w-4 h-4" />
               Guardar Gasto
             </button>
           </form>
         </div>
 
         {/* Tabla de Listado de Gastos */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="p-6 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-            <h2 className="font-bold text-slate-800">Historial de Gastos</h2>
-            <span className="text-xs font-semibold text-slate-500 bg-slate-200 px-3 py-1 rounded-full">{expenses.length} registros</span>
+        <div className="lg:col-span-2 bg-[#111827] rounded-2xl shadow-lg border border-slate-800 overflow-hidden flex flex-col">
+          <div className="p-5 bg-[#161f33] border-b border-slate-800 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <TrendingDown className="w-5 h-5 text-red-400" />
+              <h2 className="font-semibold text-white text-sm">Historial de Gastos</h2>
+            </div>
+            <span className="text-xs font-medium text-slate-400 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700/50">
+              {expenses.length} registros
+            </span>
           </div>
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase font-semibold">
-                <th className="p-4">Fecha</th>
-                <th className="p-4">Concepto</th>
-                <th className="p-4">Categoría</th>
-                <th className="p-4">Monto</th>
-                <th className="p-4 text-center">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
-              {expenses.length > 0 ? (
-                expenses.map((expense) => (
-                  <tr key={expense.id} className="hover:bg-slate-50">
-                    <td className="p-4 text-xs text-slate-500">{expense.fecha}</td>
-                    <td className="p-4 font-bold text-slate-900">{expense.concepto}</td>
-                    <td className="p-4">
-                      <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full text-xs font-semibold">
-                        {expense.categoria}
-                      </span>
-                    </td>
-                    <td className="p-4 font-bold text-red-600">-${expense.monto.toFixed(2)}</td>
-                    <td className="p-4 text-center">
-                      <button
-                        onClick={() => handleDelete(expense.id)}
-                        className="text-red-500 hover:text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition"
-                      >
-                        Eliminar
-                      </button>
+
+          <div className="overflow-x-auto flex-1">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-[#131b2e] border-b border-slate-800 text-slate-400 text-xs uppercase font-semibold tracking-wider">
+                  <th className="p-4">Fecha</th>
+                  <th className="p-4">Concepto</th>
+                  <th className="p-4">Categoría</th>
+                  <th className="p-4">Monto</th>
+                  <th className="p-4 text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 text-sm text-slate-300">
+                {expenses.length > 0 ? (
+                  expenses.map((expense) => (
+                    <tr key={expense.id} className="hover:bg-slate-800/40 transition-colors">
+                      <td className="p-4 text-xs text-slate-400">{expense.fecha}</td>
+                      <td className="p-4 font-semibold text-white">{expense.concepto}</td>
+                      <td className="p-4">
+                        <span className="bg-slate-800/80 text-slate-300 border border-slate-700/50 px-2.5 py-1 rounded-full text-xs font-medium">
+                          {expense.categoria}
+                        </span>
+                      </td>
+                      <td className="p-4 font-bold text-red-400">-${expense.monto.toFixed(2)}</td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={() => handleDelete(expense.id)}
+                          className="text-red-400 hover:text-red-300 text-xs bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-3 py-1.5 rounded-xl transition flex items-center justify-center gap-1 mx-auto"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="p-8 text-center text-slate-500">
+                      No hay gastos registrados todavía.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-400">No hay gastos registrados todavía.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
